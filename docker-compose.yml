@@ -43,5 +43,18 @@ services:
       - ./docker/nginx/:/etc/nginx/conf.d
     container_name: symf_nginx
 
+  node:
+    image: "node:${NODE_VERSION:-18}"
+    user: ${UID:-1000}:${GID:-1000}
+    volumes:
+      - ./:/project
+    working_dir: /project/assets
+    container_name: symf_node
+    command: sh -c "yarn install && yarn watch"
+    environment:
+      NODE_ENV: development
+      HOME: /project
+      YARN_CACHE_FOLDER: /tmp/yarn
+
 volumes:
   db_data:
