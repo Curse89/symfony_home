@@ -37,9 +37,9 @@ services:
     depends_on:
       - app
     ports:
-      - "8000:80"
+      - "80:80"
     volumes:
-      - ./:/symfony_app
+      - ./assetsv2/dist:/symfony_app
       - ./docker/nginx/:/etc/nginx/conf.d
     container_name: symf_nginx
 
@@ -47,13 +47,15 @@ services:
     image: "node:${NODE_VERSION:-18}"
     user: ${UID:-1000}:${GID:-1000}
     volumes:
-      - ./:/project
-    working_dir: /project/assets
+      - ./assetsv2:/assets
+    working_dir: /assets
     container_name: symf_node
-    command: sh -c "yarn install && yarn watch"
+    command: sh -c "yarn install && yarn serve"
+    expose:
+      - "8080"
     environment:
       NODE_ENV: development
-      HOME: /project
+      HOME: /assets
       YARN_CACHE_FOLDER: /tmp/yarn
 
 volumes:

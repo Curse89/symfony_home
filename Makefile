@@ -16,3 +16,7 @@ symf_create_composer:
 	@mv temp/* .
 	@rm -R temp
 	@composer require webapp
+
+vue_install:
+	@yarn global add @vue/cli
+	@vue upgrade --next
